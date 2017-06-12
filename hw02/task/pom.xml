@@ -15,7 +15,7 @@
     <dependencies>
         <dependency>
             <groupId>com.otus</groupId>
-            <artifactId>Agent</artifactId>
+            <artifactId>agent</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
