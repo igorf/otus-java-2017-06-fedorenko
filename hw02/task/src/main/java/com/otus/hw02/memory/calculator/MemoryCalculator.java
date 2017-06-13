@@ -3,18 +3,14 @@ package com.otus.hw02.memory.calculator;
 public class MemoryCalculator {
     public long calculate(MemoryObjectCreator createObjectRunnable) {
         try {
-            System.gc();
-            Thread.sleep(10);
-            int objectsCount = 1000000;
-            Object[] storage = new Object[objectsCount];
             long heap1 = memoryUsage();
 
-            for (int i = 0; i < objectsCount; i++) {
-                storage[i] = createObjectRunnable.run();
-            }
+            createObjectRunnable.run();
 
             long heap2 = memoryUsage();
-            return Math.round ((float)(heap2 - heap1) / objectsCount);
+            System.gc();
+            Thread.currentThread().yield();
+            return (heap2 - heap1);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
