@@ -1,14 +1,12 @@
-package com.otus.hw02.memory;
+package com.otus.hw02.memory.checker;
 
 public class MemoryCheckerSelector {
     public static MemoryChecker getMemoryChecker(MemoryCheckerType type) {
         switch (type) {
-            case STREAM:
-                return new StreamMemoryChcker();
-            case HEAP:
-                return new HeapMemoryChcker();
             case INSTRUMENTATION:
-                return new InstrumentationMemoryChcker();
+                return new InstrumentationMemoryChecker();
+            case JAMM:
+                return new JammMemoryChecker();
         }
 
         return getFallbackMemoryChecker();
@@ -19,6 +17,6 @@ public class MemoryCheckerSelector {
     }
 
     private static MemoryChecker getFallbackMemoryChecker() {
-        return new InstrumentationMemoryChcker();
+        return new JammMemoryChecker();
     }
 }

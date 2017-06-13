@@ -18,6 +18,18 @@
             <artifactId>agent</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.github.stephenc/jamm -->
+        <dependency>
+            <groupId>com.github.stephenc</groupId>
+            <artifactId>jamm</artifactId>
+            <version>0.2.5</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.stephenc</groupId>
+            <artifactId>jamm</artifactId>
+            <version>RELEASE</version>
+        </dependency>
     </dependencies>
 
     <properties>
@@ -86,6 +98,41 @@
                 <configuration>
                     <mainClass>${mainClassName}</mainClass>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.0.1</version>
+                <executions>
+                    <execution>
+                        <id>copy</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.github.stephenc</groupId>
+                                    <artifactId>jamm</artifactId>
+                                    <overWrite>true</overWrite>
+                                    <outputDirectory>${project.basedir}/../run/agents</outputDirectory>
+                                    <destFileName>jamm.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.otus</groupId>
+                                    <artifactId>agent</artifactId>
+                                    <overWrite>true</overWrite>
+                                    <outputDirectory>${project.basedir}/../run/agents</outputDirectory>
+                                    <destFileName>local-agent.jar</destFileName>
+                                </artifactItem>
+                            </artifactItems>
+                            <overWriteReleases>true</overWriteReleases>
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
         </plugins>

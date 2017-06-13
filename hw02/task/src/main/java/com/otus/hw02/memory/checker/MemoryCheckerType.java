@@ -1,7 +1,6 @@
-package com.otus.hw02.memory;
+package com.otus.hw02.memory.checker;
 
 public enum MemoryCheckerType {
-    STREAM,
-    HEAP,
+    JAMM,
     INSTRUMENTATION
 }
