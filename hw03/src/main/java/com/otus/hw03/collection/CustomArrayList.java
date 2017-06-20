@@ -6,6 +6,7 @@ public class CustomArrayList<T> implements List<T> {
 
     private static final int DEFAULT_CAPACITY = 3;
     private static final int PRINTABLE_ELEMENTS = 25;
+    private static final float SCALE_FACTOR = 0.1f;
 
     private Object[] data;
     private int size = 0;
@@ -19,7 +20,7 @@ public class CustomArrayList<T> implements List<T> {
     }
 
     private int calcSizeIncrement() {
-        return Math.max((int)((float)size * 0.1f), DEFAULT_CAPACITY);
+        return Math.max((int)((float)size * SCALE_FACTOR), DEFAULT_CAPACITY);
     }
 
     CustomArrayList(int capacity) {
