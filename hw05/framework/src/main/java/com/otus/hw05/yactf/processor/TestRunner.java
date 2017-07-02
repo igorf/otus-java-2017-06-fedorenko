@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 
 public class TestRunner {
 
-    private Logger logger = Logger.getLogger(TestRunner.class.getName());
+    private static Logger logger = Logger.getLogger(TestRunner.class.getName());
     private String testingPackage;
     private TestAnnotationProcessor annotationProcessor = new TestAnnotationProcessor();
 
