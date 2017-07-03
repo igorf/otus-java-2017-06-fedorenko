@@ -13,6 +13,7 @@ import java.util.Set;
 class TestAnnotationProcessor {
     Set<Method> findTestableElementsForPackage(String pkg) {
         Reflections reflections = new Reflections(pkg, new MethodAnnotationsScanner());
+        //TODO: Sort by classname and methodname
         return reflections.getMethodsAnnotatedWith(Test.class);
     }
 

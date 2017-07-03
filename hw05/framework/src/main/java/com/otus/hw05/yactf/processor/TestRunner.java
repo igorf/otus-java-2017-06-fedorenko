@@ -35,14 +35,18 @@ public class TestRunner {
         result.setResult(true);
 
         try {
+            Object instance = getClassInstanceForMethod(method);
             TestMethodBundle bundle = prepare(method);
             if (bundle.getBefore() != null) {
-                invokeMethod(bundle.getBefore());
+                invokeMethod(bundle.getBefore(), instance);
             }
-            invokeMethod(bundle.getTest());
+            invokeMethod(bundle.getTest(), instance);
             if (bundle.getAfter() != null) {
-                invokeMethod(bundle.getAfter());
+                invokeMethod(bundle.getAfter(), instance);
             }
+        } catch (java.lang.reflect.InvocationTargetException iex) {
+            result.setCause(iex.getTargetException());
+            result.setResult(false);
         } catch (Exception ex) {
             result.setResult(false);
             result.setCause(ex);
@@ -52,9 +56,15 @@ public class TestRunner {
         return result;
     }
 
-    private void invokeMethod(Method method) throws Exception {
-        Class<?> clazz = method.getDeclaringClass();
-        Object instance = clazz.newInstance();
+    private Object getClassInstanceForMethod(Method method) throws Exception {
+        ClassLoader loader = method.getDeclaringClass().getClassLoader();
+        loader.setDefaultAssertionStatus(true);
+        Class<?> clazz = Class.forName(method.getDeclaringClass().getName(), true, loader);
+
+        return clazz.newInstance();
+    }
+
+    private void invokeMethod(Method method, Object instance) throws Exception {
         method.setAccessible(true);
         method.invoke(instance);
     }
