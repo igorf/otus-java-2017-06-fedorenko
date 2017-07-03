@@ -23,7 +23,7 @@ public class TestRunner {
             testNumber ++;
             logger.info("Running test " + testNumber + " of " + testingMethods.size() + " .........................");
             result.addResult(runSimpleTest(m));
-            logger.info("......................... DONE");
+            logger.info("......................... DONE\n");
         }
 
         return result;
@@ -48,13 +48,14 @@ public class TestRunner {
             result.setCause(ex);
         }
 
-        logger.info(result.toString());
+        logger.info(result.getStringRepresentation());
         return result;
     }
 
     private void invokeMethod(Method method) throws Exception {
         Class<?> clazz = method.getDeclaringClass();
         Object instance = clazz.newInstance();
+        method.setAccessible(true);
         method.invoke(instance);
     }
 

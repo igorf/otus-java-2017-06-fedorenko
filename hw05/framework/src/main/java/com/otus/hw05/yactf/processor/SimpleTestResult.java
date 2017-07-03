@@ -10,8 +10,7 @@ public class SimpleTestResult {
     private boolean result;
     private Throwable cause;
 
-    @Override
-    public String toString() {
+    public String getStringRepresentation() {
         String name = method.getDeclaringClass().getName() + "::" + method.getName();
         String runResult = result ? " -> OK" : " FAILED [!]\n Cause: " + cause.getCause() + "\n" + cause.getStackTrace();
 

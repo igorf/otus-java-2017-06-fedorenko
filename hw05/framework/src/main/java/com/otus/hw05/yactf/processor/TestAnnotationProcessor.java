@@ -4,6 +4,7 @@ import com.otus.hw05.yactf.annotations.AfterTest;
 import com.otus.hw05.yactf.annotations.BeforeTest;
 import com.otus.hw05.yactf.annotations.Test;
 import org.reflections.Reflections;
+import org.reflections.scanners.MethodAnnotationsScanner;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -11,7 +12,7 @@ import java.util.Set;
 
 class TestAnnotationProcessor {
     Set<Method> findTestableElementsForPackage(String pkg) {
-        Reflections reflections = new Reflections(pkg);
+        Reflections reflections = new Reflections(pkg, new MethodAnnotationsScanner());
         return reflections.getMethodsAnnotatedWith(Test.class);
     }
 
