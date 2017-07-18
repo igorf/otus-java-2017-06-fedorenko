@@ -1,5 +1,6 @@
 package com.otus.hw06.atm.commands;
 
+import com.otus.hw06.atm.exceptions.UnknownCommandException;
 import com.otus.hw06.atm.util.AtmCommandArgumentsParser;
 
 import java.util.List;
@@ -7,7 +8,7 @@ import java.util.List;
 public class AtmCommandFactory {
     private final static String[] VALID_COMMANDS = {"PUT", "GET", "AMOUNT"};
 
-    public static AtmCommand createCommand(String incoming) {
+    public static AtmCommand createCommand(String incoming) throws Exception {
         List<String> splittedCommand = AtmCommandArgumentsParser.splitIncomingCommand(incoming);
         AtmCommand atmCommand = null;
         if (splittedCommand.size() > 0 && isValid(splittedCommand.get(0))) {
@@ -23,6 +24,9 @@ public class AtmCommandFactory {
                     atmCommand = new GetMoneyCommand(splittedCommand);
                     break;
             }
+        }
+        if (atmCommand == null) {
+            throw new UnknownCommandException(incoming);
         }
         return atmCommand;
     }

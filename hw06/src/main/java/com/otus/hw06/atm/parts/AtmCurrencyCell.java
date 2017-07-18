@@ -1,8 +1,10 @@
 package com.otus.hw06.atm.parts;
 
+import lombok.Getter;
+
 public class AtmCurrencyCell {
-    private int nominal = 0;
-    private int quantity = 0;
+    @Getter private int nominal = 0;
+    @Getter private int quantity = 0;
 
     public AtmCurrencyCell(int nominal) throws Exception {
         if (nominal <= 0) {
@@ -34,13 +36,5 @@ public class AtmCurrencyCell {
 
     public void clean() {
         this.quantity = 0;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public int getNominal() {
-        return nominal;
     }
 }

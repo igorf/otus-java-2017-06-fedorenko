@@ -5,6 +5,8 @@ import com.otus.hw06.atm.commands.AtmCommand;
 import com.otus.hw06.atm.commands.AtmCommandFactory;
 import com.otus.hw06.atm.parts.AtmStorage;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.Set;
 
 public class Atm {
@@ -13,25 +15,24 @@ public class Atm {
         storage = new AtmStorage(denominations);
     }
 
-    private AtmCommand getCommand(String command) {
+    private AtmCommand getCommand(String command) throws Exception {
         return AtmCommandFactory.createCommand(command.toUpperCase().trim());
     }
 
     public String runCommand(String command) {
-        AtmCommand atmCommand = getCommand(command);
-        if (atmCommand != null) {
-            try {
-                return atmCommand.run(storage);
-            } catch (Exception e) {
-                return "ATM error: " + e.getMessage();
-            }
+        try {
+            AtmCommand atmCommand = getCommand(command);
+            return atmCommand.run(storage);
+        } catch (Exception e) {
+            return "ATM error: " + e.getMessage();
         }
-        return "Unknown command";
     }
 
     public String getGreetings() {
         String result = "Available denominations: ";
-        for (int i: storage.getAllDenominations()) {
+        List<Integer> denominations = storage.getAllDenominations();
+        denominations.sort(Comparator.reverseOrder());
+        for (int i: denominations) {
             result += i + " ";
         }
         return result;
