@@ -9,8 +9,8 @@ import java.util.Set;
 
 public class Atm {
     private AtmStorage storage;
-    public Atm(Set<Integer> nominals) throws Exception {
-        storage = new AtmStorage(nominals);
+    public Atm(Set<Integer> denominations) throws Exception {
+        storage = new AtmStorage(denominations);
     }
 
     private AtmCommand getCommand(String command) {
@@ -27,5 +27,13 @@ public class Atm {
             }
         }
         return "Unknown command";
+    }
+
+    public String getGreetings() {
+        String result = "Available denominations: ";
+        for (int i: storage.getAllDenominations()) {
+            result += i + " ";
+        }
+        return result;
     }
 }

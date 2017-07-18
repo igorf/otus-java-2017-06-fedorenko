@@ -18,7 +18,7 @@ public class GetMoneyCommand implements AtmCommand {
         int amount = amountNeeded();
         this.atm = atm;
 
-        for (List<Integer> variant: new AmountSplitter(atm.getAvailableNominals()).split(amount)) {
+        for (List<Integer> variant: new AmountSplitter(atm.getAvailableDenominations()).split(amount)) {
             if (takeFromATM(variant)) {
                 return showVariant(variant);
             }

@@ -4,10 +4,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class AmountSplitter {
-    private int currentAmount = 0;
     private List<Integer> denominations = new ArrayList<>(0);
     private List<List<Integer>> result = new ArrayList<>(0);
-    private Map<Integer, Integer> cache = new HashMap<>(0);
 
     public AmountSplitter(List<Integer> denominations) {
         this.denominations = denominations.stream().distinct().collect(Collectors.toList());
@@ -15,28 +13,27 @@ public class AmountSplitter {
     }
 
     public synchronized List<List<Integer>> split(int amount) {
-        currentAmount = amount;
         result.clear();
-        cache.clear();
-        doSplit(amount, 0);
+        doSplit(amount, new ArrayList<>(this.denominations), new ArrayList<>());
         result.sort(Comparator.comparingInt(List::size));
         return result;
     }
 
-    private void doSplit(int amount, int banknotes) {
-        if (amount <= 0) {
-            if (cache.values().stream().mapToInt(Integer::intValue).sum() == currentAmount) {
-                List<Integer> composition = new ArrayList<>(cache.values());
-                composition.sort(Integer::compareTo);
-                if (!result.contains(composition)) {
-                    this.result.add(composition);
-                }
+    private void doSplit(int amount, List<Integer> denominations, List<Integer> cache) {
+        if (denominations.size() == 0 || amount <= 0) {
+            if (amount == 0) {
+                this.result.add(new ArrayList<>(cache));
             }
-        } else {
-            for (int i: this.denominations) {
-                cache.put(banknotes, i);
-                doSplit(amount - i, banknotes + 1);
-            }
+            return;
+        }
+
+        int d = denominations.get(0);
+        List<Integer> next = new ArrayList<>(denominations);
+        next.remove(0);
+        while (amount >= 0) {
+            doSplit(amount, next, new ArrayList<>(cache));
+            cache.add(d);
+            amount -= d;
         }
     }
 }

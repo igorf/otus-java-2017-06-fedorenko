@@ -7,8 +7,8 @@ public class AtmStorage {
     private Map<Integer, AtmCurrencyCell> inCache = new HashMap<>();
     private Map<Integer, AtmCurrencyCell> outCache = new HashMap<>();
 
-    public AtmStorage(Set<Integer> nominals) throws Exception {
-        for (int nominal: nominals) {
+    public AtmStorage(Set<Integer> denominations) throws Exception {
+        for (int nominal: denominations) {
             AtmCurrencyCell cell = new AtmCurrencyCell(nominal);
             cells.put(nominal, cell);
 
@@ -46,29 +46,12 @@ public class AtmStorage {
         cache.add(amount);
     }
 
-    public List<Integer> getAvailableNominals() {
-        List<Integer> nominals = new ArrayList<>();
-        cells.values().forEach((cell) -> {
-            if (cell.amount() > 0) {
-                nominals.add(cell.getNominal());
-            }
-        });
-        return nominals;
+    public List<Integer> getAvailableDenominations() {
+        return collectDenominations((v) -> v.amount() > 0);
     }
 
-    private synchronized void putFromCacheToConstantCells(Map<Integer, AtmCurrencyCell> cache) {
-        cache.forEach((key, value) -> {
-            try {
-                cells.get(key).add(value.getQuantity());
-            } catch (Exception e) {
-                rollbackInput();
-                e.printStackTrace();
-            }
-        });
-    }
-
-    private void clearCache(Map<Integer, AtmCurrencyCell> cache) {
-        cache.forEach((key, value) -> value.clean());
+    public List<Integer> getAllDenominations() {
+        return collectDenominations((v) -> true);
     }
 
     public void commitInput() {
@@ -85,5 +68,34 @@ public class AtmStorage {
 
     public void rollbackOutput() {
         putFromCacheToConstantCells(outCache);
+    }
+
+    interface CellCollectChecker {
+        boolean isOkForCollect(AtmCurrencyCell cell);
+    }
+
+    private List<Integer> collectDenominations(CellCollectChecker checker) {
+        List<Integer> denominations = new ArrayList<>();
+        cells.values().forEach((cell) -> {
+            if (checker.isOkForCollect(cell)) {
+                denominations.add(cell.getNominal());
+            }
+        });
+        return denominations;
+    }
+
+    private synchronized void putFromCacheToConstantCells(Map<Integer, AtmCurrencyCell> cache) {
+        cache.forEach((key, value) -> {
+            try {
+                cells.get(key).add(value.getQuantity());
+            } catch (Exception e) {
+                rollbackInput();
+                e.printStackTrace();
+            }
+        });
+    }
+
+    private void clearCache(Map<Integer, AtmCurrencyCell> cache) {
+        cache.forEach((key, value) -> value.clean());
     }
 }

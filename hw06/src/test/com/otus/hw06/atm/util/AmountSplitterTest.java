@@ -14,6 +14,6 @@ public class AmountSplitterTest {
         denominations.add(5);
         denominations.add(1);
         List result = new AmountSplitter(denominations).split(16);
-        assert result.size() == 6;
+        assert result.size() == 8;
     }
 }
