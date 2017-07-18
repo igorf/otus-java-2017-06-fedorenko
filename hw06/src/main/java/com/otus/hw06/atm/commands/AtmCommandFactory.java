@@ -6,7 +6,7 @@ import com.otus.hw06.atm.util.AtmCommandArgumentsParser;
 import java.util.List;
 
 public class AtmCommandFactory {
-    private final static String[] VALID_COMMANDS = {"PUT", "GET", "AMOUNT"};
+    private final static String[] VALID_COMMANDS = {"PUT", "GET", "AMOUNT", "DENOMINATIONS"};
 
     public static AtmCommand createCommand(String incoming) throws Exception {
         List<String> splittedCommand = AtmCommandArgumentsParser.splitIncomingCommand(incoming);
@@ -22,6 +22,9 @@ public class AtmCommandFactory {
                     break;
                 case "GET":
                     atmCommand = new GetMoneyCommand(splittedCommand);
+                    break;
+                case "DENOMINATIONS":
+                    atmCommand = new DenominationsCommand(splittedCommand);
                     break;
             }
         }

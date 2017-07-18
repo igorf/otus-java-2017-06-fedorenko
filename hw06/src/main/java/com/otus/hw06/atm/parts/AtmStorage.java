@@ -1,5 +1,9 @@
 package com.otus.hw06.atm.parts;
 
+import com.otus.hw06.atm.Atm;
+import com.otus.hw06.atm.exceptions.EmptyAtmException;
+import lombok.Getter;
+
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -9,8 +13,15 @@ public class AtmStorage {
     private Map<Integer, AtmCurrencyCell> inCache = new HashMap<>();
     private Map<Integer, AtmCurrencyCell> outCache = new HashMap<>();
     private Logger logger = Logger.getLogger(AtmStorage.class.getName());
+    @Getter private Atm atm;
 
-    public AtmStorage(Set<Integer> denominations) throws Exception {
+    public AtmStorage(Set<Integer> denominations, Atm atm) throws Exception {
+        if (atm == null) {
+            throw new EmptyAtmException();
+        }
+
+        this.atm = atm;
+
         for (int nominal: denominations) {
             AtmCurrencyCell cell = new AtmCurrencyCell(nominal);
             cells.put(nominal, cell);

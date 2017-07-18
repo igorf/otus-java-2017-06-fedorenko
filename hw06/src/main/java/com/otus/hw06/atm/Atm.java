@@ -11,8 +11,9 @@ import java.util.Set;
 
 public class Atm {
     private AtmStorage storage;
+
     public Atm(Set<Integer> denominations) throws Exception {
-        storage = new AtmStorage(denominations);
+        storage = new AtmStorage(denominations, this);
     }
 
     private AtmCommand getCommand(String command) throws Exception {
