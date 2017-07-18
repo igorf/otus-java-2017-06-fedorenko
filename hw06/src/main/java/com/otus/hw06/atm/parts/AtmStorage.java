@@ -1,11 +1,14 @@
 package com.otus.hw06.atm.parts;
 
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AtmStorage {
     private Map<Integer, AtmCurrencyCell> cells = new HashMap<>();
     private Map<Integer, AtmCurrencyCell> inCache = new HashMap<>();
     private Map<Integer, AtmCurrencyCell> outCache = new HashMap<>();
+    private Logger logger = Logger.getLogger(AtmStorage.class.getName());
 
     public AtmStorage(Set<Integer> denominations) throws Exception {
         for (int nominal: denominations) {
@@ -54,6 +57,19 @@ public class AtmStorage {
         return collectDenominations((v) -> true);
     }
 
+    public synchronized boolean getMoneyBundle(Map<Integer, Integer> asked) {
+        try {
+            for (int denomination: asked.keySet()) {
+                getMoneyFrom(denomination, asked.get(denomination));
+            }
+            commitOutput();
+            return true;
+        } catch (Exception ex) {
+            rollbackOutput();
+        }
+        return false;
+    }
+
     public void commitInput() {
         putFromCacheToConstantCells(inCache);
     }
@@ -88,9 +104,9 @@ public class AtmStorage {
         cache.forEach((key, value) -> {
             try {
                 cells.get(key).add(value.getQuantity());
+                value.clean();
             } catch (Exception e) {
-                rollbackInput();
-                e.printStackTrace();
+                logger.log(Level.WARNING, e.getMessage());
             }
         });
     }
