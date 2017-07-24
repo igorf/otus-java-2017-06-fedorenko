@@ -1,6 +1,5 @@
 package com.otus.hw07.atm;
 
-
 import com.otus.hw07.atm.commands.AtmCommand;
 import com.otus.hw07.atm.commands.AtmCommandFactory;
 import com.otus.hw07.atm.commands.result.CommandResult;
