@@ -1,4 +1,4 @@
-package com.otus.hw06.atm.util;
+package com.otus.hw07.atm.util;
 
 import org.junit.Test;
 

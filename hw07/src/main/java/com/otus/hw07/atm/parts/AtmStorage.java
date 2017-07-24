@@ -2,6 +2,8 @@ package com.otus.hw07.atm.parts;
 
 import com.otus.hw07.atm.Atm;
 import com.otus.hw07.atm.exceptions.EmptyAtmException;
+import com.otus.hw07.atm.exceptions.UnknownDenominationException;
+import com.otus.hw07.atm.state.AtmInitialState;
 import lombok.Getter;
 
 import java.util.*;
@@ -13,16 +15,18 @@ public class AtmStorage {
     private Map<Integer, AtmCurrencyCell> inCache = new HashMap<>();
     private Map<Integer, AtmCurrencyCell> outCache = new HashMap<>();
     private Logger logger = Logger.getLogger(AtmStorage.class.getName());
+    private AtmInitialState initialState;
     @Getter private Atm atm;
 
-    public AtmStorage(Set<Integer> denominations, Atm atm) throws Exception {
+    public AtmStorage(AtmInitialState state, Atm atm) throws Exception {
         if (atm == null) {
             throw new EmptyAtmException();
         }
 
         this.atm = atm;
+        initialState = state;
 
-        for (int nominal: denominations) {
+        for (int nominal: state.getCells().keySet()) {
             AtmCurrencyCell cell = new AtmCurrencyCell(nominal);
             cells.put(nominal, cell);
 
@@ -32,12 +36,14 @@ public class AtmStorage {
             cell = new AtmCurrencyCell(nominal);
             outCache.put(nominal, cell);
         }
+
+        restore();
     }
 
     public void putMoneyTo(int nominal, int amount) throws Exception {
         AtmCurrencyCell cell = inCache.get(nominal);
         if (cell == null) {
-            throw new Exception("Unknown currency nominal");
+            throw new UnknownDenominationException();
         }
         cell.add(amount);
     }
@@ -95,6 +101,15 @@ public class AtmStorage {
 
     public void rollbackOutput() {
         putFromCacheToConstantCells(outCache);
+    }
+
+    public void restore() throws Exception {
+        for (int key: initialState.getCells().keySet()) {
+            cells.get(key).clean();
+            cells.get(key).add(initialState.getCells().get(key));
+        }
+        clearCache(inCache);
+        clearCache(outCache);
     }
 
     interface CellCollectChecker {

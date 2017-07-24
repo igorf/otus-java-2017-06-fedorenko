@@ -5,16 +5,18 @@ import com.otus.hw07.atm.commands.AtmCommand;
 import com.otus.hw07.atm.commands.AtmCommandFactory;
 import com.otus.hw07.atm.commands.result.CommandResult;
 import com.otus.hw07.atm.parts.AtmStorage;
+import com.otus.hw07.atm.state.AtmInitialState;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
 
 public class Atm {
+    private AtmInitialState initialState;
     private AtmStorage storage;
 
-    public Atm(Set<Integer> denominations) throws Exception {
-        storage = new AtmStorage(denominations, this);
+    public Atm(AtmInitialState state) throws Exception {
+        initialState = state;
+        storage = new AtmStorage(initialState, this);
     }
 
     private AtmCommand getCommand(String command) throws Exception {
@@ -31,7 +33,7 @@ public class Atm {
         List<Integer> denominations = storage.getAllDenominations();
         denominations.sort(Comparator.reverseOrder());
         for (int i: denominations) {
-            result += i + " ";
+            result += (i + " ");
         }
         return result;
     }
