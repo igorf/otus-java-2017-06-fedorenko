@@ -8,22 +8,26 @@ import com.otus.hw07.atm.util.AtmCommandArgumentsParser;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class PutMoneyCommand implements AtmCommand {
-    private List<String> arguments;
+    private Map<Integer, Integer> incoming;
+    private static Logger logger = Logger.getLogger(PutMoneyCommand.class.getName());
+
+    public PutMoneyCommand(Map<Integer, Integer> arguments) {
+        incoming = arguments;
+    }
 
     public PutMoneyCommand(List<String> arguments) {
-        this.arguments = arguments;
+        this(collectArguments(arguments));
     }
 
     @Override
     public CommandResult run(AtmStorage atm) throws Exception {
-        Map<Integer, Integer> arguments = collectArguments();
-
         BasicCommandResult result = new BasicCommandResult();
-        for (int key: arguments.keySet()) {
+        for (int key: incoming.keySet()) {
             try {
-                atm.putMoneyTo(key, arguments.get(key));
+                atm.putMoneyTo(key, incoming.get(key));
             } catch (Exception e) {
                 atm.rollbackInput();
                 throw e;
@@ -34,15 +38,15 @@ public class PutMoneyCommand implements AtmCommand {
         return result;
     }
 
-    private Map<Integer, Integer> collectArguments() throws Exception {
+    private static Map<Integer, Integer> collectArguments(List<String> arguments) {
+        Map<Integer, Integer> result = new HashMap<>();
         try {
-            Map<Integer, Integer> result = new HashMap<>();
             for (String part: arguments) {
                 result.putAll(AtmCommandArgumentsParser.parseBanknotesListArgs(part));
             }
-            return result;
         } catch (Exception ex) {
-            throw new Exception("Invalid arguments");
+            logger.warning(ex.getMessage());
         }
+        return result;
     }
 }

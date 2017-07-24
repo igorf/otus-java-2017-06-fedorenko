@@ -12,23 +12,26 @@ import java.util.List;
 
 public class GetMoneyCommand implements AtmCommand {
     private AtmStorage atm;
-    private List<String> arguments;
+    private int amountAsked;
 
-    GetMoneyCommand(List<String> arguments) {
-        this.arguments = arguments;
+    public GetMoneyCommand(List<String> arguments) {
+        this(Integer.valueOf(arguments.get(0)));
+    }
+
+    public GetMoneyCommand(int amount) {
+        amountAsked = amount;
     }
 
     @Override
     public CommandResult run(AtmStorage atm) throws Exception {
         GetMoneyResult result = new GetMoneyResult();
-        int amount = amountNeeded();
         this.atm = atm;
 
-        if (atm.getAmount() < amount) {
+        if (atm.getAmount() < amountAsked) {
             throw new NoEnoughMoneyException();
         }
 
-        for (List<Integer> variant: new AmountSplitter(atm.getAvailableDenominations()).split(amount)) {
+        for (List<Integer> variant: new AmountSplitter(atm.getAvailableDenominations()).split(amountAsked)) {
             if (takeFromATM(variant)) {
                 result.setBanknotes(variant);
                 return result;
@@ -36,14 +39,6 @@ public class GetMoneyCommand implements AtmCommand {
         }
 
         throw new NoBanknotesException();
-    }
-
-    private int amountNeeded() throws Exception {
-        try {
-            return Integer.valueOf(arguments.get(0));
-        } catch (Exception ex) {
-            throw new Exception("Invalid arguments");
-        }
     }
 
     private boolean takeFromATM(List<Integer> banknotes) {

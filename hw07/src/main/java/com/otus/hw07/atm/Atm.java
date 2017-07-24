@@ -28,6 +28,10 @@ public class Atm {
         return atmCommand.run(storage);
     }
 
+    public CommandResult runCommand(AtmCommand atmCommand) throws Exception {
+        return atmCommand.run(storage);
+    }
+
     public String getGreetings() {
         String result = "Available denominations: ";
         List<Integer> denominations = storage.getAllDenominations();
