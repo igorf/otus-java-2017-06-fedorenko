@@ -18,6 +18,7 @@ public class JsonHandlerFactory implements HandlerFactory {
         processors.add(new StringProcessor());
         processors.add(new IterableProcessor());
         processors.add(new ArrayProcessor());
+        processors.add(new BooleanProcessor());
         processors.add(new CommonObjectProcessor());
     }
 

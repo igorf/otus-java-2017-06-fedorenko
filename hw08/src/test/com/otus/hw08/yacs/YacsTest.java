@@ -23,7 +23,7 @@ public class YacsTest {
         mockOne.setInner(innerArray);
 
         String jsonMockOne = Yacs.serializeToJSON(mockOne);
-        assertEquals("{\"x\":0,\"numbers\":[1,2,4,6],\"y\":1.5,\"z\":\"hello, world\",\"inner\":[{\"a\":100,\"b\":null,\"strings\":[\"Hello \",\"world\"]}]}", jsonMockOne);
+        assertEquals("{\"b2\":true,\"x\":0,\"numbers\":[1,2,4,6],\"y\":1.5,\"z\":\"hello, world\",\"inner\":[{\"a\":100,\"b\":null,\"strings\":[\"Hello \",\"world\"]}],\"b1\":false}", jsonMockOne);
 
         MockTwo mockTwoCopy = new Gson().fromJson(jsonMockTwo, MockTwo.class);
         assertEquals(mockTwo, mockTwoCopy);
