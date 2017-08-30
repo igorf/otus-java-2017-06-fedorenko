@@ -24,4 +24,4 @@
 </table>
 </#if>
 
-<a href="/">Cache info</a>
+<a href="/webapp">Cache info</a>
