@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-4.3.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+    <context:component-scan base-package="com.otus.hw13"></context:component-scan>
+    <context:annotation-config/>
+    <context:spring-configured/>
+    <bean id="userService" class="com.otus.hw13.db.service.impl.YadbeCachedUserService" />
+    <bean id="userCache" class="com.otus.hw.yace.YaceCacheEngine" factory-method="createSizedCache">
+        <constructor-arg index="0" value="10" />
+        <constructor-arg index="1" value="60000" />
+    </bean>
+</beans>

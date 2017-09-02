@@ -1,0 +1,39 @@
+package com.otus.hw13.web.controller;
+
+import com.otus.hw13.web.base.SpringServlet;
+import com.otus.hw13.web.service.LoginService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+@Configurable
+public class LoginServlet extends SpringServlet {
+
+    @Autowired private LoginService loginService;
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        loginService.setRequest(request);
+        if (!loginService.isLogged()) {
+            request.getRequestDispatcher("/template/login.ftl").forward(request, response);
+        } else {
+            response.sendRedirect("/");
+        }
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String login = request.getParameter("login");
+        String password = request.getParameter("password");
+        loginService.setRequest(request);
+        if (loginService.login(login, password)) {
+            response.sendRedirect("/");
+        } else {
+            request.setAttribute("loginFailed", true);
+            request.getRequestDispatcher("/template/login.ftl").forward(request, response);
+        }
+    }
+}
