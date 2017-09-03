@@ -5,13 +5,13 @@ import com.otus.hw13.db.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @Service
 public class LoginService {
 
     private final static String LOGGED_USER_ATTRIBUTE = "LOGGED_USER";
-    private HttpServletRequest request;
+    private HttpSession session;
     @Autowired private UserService userService;
 
     public boolean isLogged() {
@@ -19,22 +19,23 @@ public class LoginService {
     }
 
     public UserDataSet getUser() {
-        return (UserDataSet) request.getSession().getAttribute(LOGGED_USER_ATTRIBUTE);
+        return (UserDataSet) session.getAttribute(LOGGED_USER_ATTRIBUTE);
     }
 
     public boolean login(String username, String password) {
         UserDataSet user = userService.findByLoginAndPassword(username, password);
         if (user != null) {
-            request.getSession().setAttribute(LOGGED_USER_ATTRIBUTE, user);
+            session.setAttribute(LOGGED_USER_ATTRIBUTE, user);
         }
         return user != null;
     }
 
     public void logoff() {
-        request.getSession().removeAttribute(LOGGED_USER_ATTRIBUTE);
+        session.removeAttribute(LOGGED_USER_ATTRIBUTE);
     }
 
-    public void setRequest(HttpServletRequest request) {
-        this.request = request;
+
+    public void setSession(HttpSession session) {
+        this.session = session;
     }
 }

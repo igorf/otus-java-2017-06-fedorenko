@@ -21,7 +21,7 @@ public class SampleUserServlet extends SpringServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        loginService.setRequest(request);
+        loginService.setSession(request.getSession());
         if (!loginService.isLogged()) {
             response.sendRedirect("/login");
             return;

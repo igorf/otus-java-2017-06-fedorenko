@@ -17,7 +17,7 @@ public class LoginServlet extends SpringServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        loginService.setRequest(request);
+        loginService.setSession(request.getSession());
         if (!loginService.isLogged()) {
             request.getRequestDispatcher("/template/login.ftl").forward(request, response);
         } else {
@@ -28,7 +28,7 @@ public class LoginServlet extends SpringServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String login = request.getParameter("login");
         String password = request.getParameter("password");
-        loginService.setRequest(request);
+        loginService.setSession(request.getSession());
         if (loginService.login(login, password)) {
             response.sendRedirect("/");
         } else {
