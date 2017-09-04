@@ -14,7 +14,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <mainClassName>com.otus.hw13.Main</mainClassName>
     </properties>
 
     <dependencies>
@@ -115,7 +114,6 @@
                         <index>true</index>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>${mainClassName}</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -133,7 +131,6 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>${mainClassName}</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
