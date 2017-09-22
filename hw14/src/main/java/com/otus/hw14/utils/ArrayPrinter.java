@@ -4,9 +4,9 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public class ArrayPrinter {
-    public static String arrayToString(Object[] array) {
+    public static String arrayToString(int[] array) {
         return Arrays.stream(array)
-                .map(Object::toString)
+                .mapToObj(i -> ((Integer) i).toString())
                 .collect(Collectors.joining(", "));
     }
 }

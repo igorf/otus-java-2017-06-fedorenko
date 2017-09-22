@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SortBenchmark {
-    private static final int ARRAY_SIZE = 10000;
-    private static final int RUN_COUNT = 1000;
+    private static final int ARRAY_SIZE = 5_000_000;
+    private static final int RUN_COUNT = 10;
 
     @Getter
     private List<Double> results = new ArrayList<>();
@@ -16,7 +16,7 @@ public class SortBenchmark {
     public void mark(BenchmarkSorter sorter) {
         results.clear();
         for (int i = 0; i < RUN_COUNT; i++) {
-            Object[] unsorted = ArrayCreator.createArray(ARRAY_SIZE);
+            int[] unsorted = ArrayCreator.createArray(ARRAY_SIZE);
             double before = System.nanoTime();
             sorter.sort(unsorted);
             double after = System.nanoTime();

@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class NativeSorter implements BenchmarkSorter {
     @Override
-    public void sort(Object[] array) {
+    public void sort(int[] array) {
         Arrays.sort(array);
     }
 }
