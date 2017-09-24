@@ -12,7 +12,7 @@ public class CacheSummary {
     private long hits;
     private long misses;
 
-    public final static CacheSummary fromCache(Cache cache) {
+    public static CacheSummary fromCache(Cache cache) {
         CacheSummary result = new CacheSummary();
         result.setName(cache.getName());
         result.setGlobalTTL(cache.getCacheConfiguration().getTimeToLiveSeconds());
