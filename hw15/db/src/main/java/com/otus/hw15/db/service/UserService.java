@@ -3,6 +3,7 @@ package com.otus.hw15.db.service;
 import com.otus.hw15.db.model.User;
 import com.otus.hw15.db.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -10,21 +11,8 @@ public class UserService {
 
     @Autowired private UserRepository userRepository;
 
+    @Cacheable(value="users", key="#id")
     public User find(long id) {
-        /*
-        CacheContainer<Long, User> cached = userCache.get(id);
-        if (cached != null) {
-            cacheChangedNotifier.notifyClients();
-            return cached.getValue();
-        }
-        User user = super.find(id);
-        if (user != null) {
-            userCache.put(new CacheContainer<>(id, user));
-        }
-
-        cacheChangedNotifier.notifyClients();
-        return user;
-        */
         return userRepository.findOne(id);
     }
 

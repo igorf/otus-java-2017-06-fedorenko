@@ -4,10 +4,11 @@ import lombok.Data;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity(name = "user")
 @Data
-public class User {
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
