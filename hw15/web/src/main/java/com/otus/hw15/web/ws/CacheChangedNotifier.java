@@ -1,6 +1,6 @@
 package com.otus.hw15.web.ws;
 
-import com.otus.hw15.web.service.CacheInfoService;
+import com.otus.hw15.web.service.CacheService;
 import com.otus.hw15.web.service.LoginService;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public class CacheChangedNotifier {
     private final static String GET_MSG = "GET";
     private static Queue<Session> queue = new ConcurrentLinkedQueue<>();
     private static Logger logger = Logger.getLogger(CacheChangedNotifier.class.getName());
-    @Autowired private CacheInfoService cacheInfoService;
+    @Autowired private CacheService cacheService;
     @Autowired private LoginService loginService;
 
     @OnOpen
@@ -61,7 +61,7 @@ public class CacheChangedNotifier {
     private String createClientMessage() {
         try {
             ObjectMapper mapper = new ObjectMapper();
-            String result = mapper.writeValueAsString(cacheInfoService.cacheInfo());
+            String result = mapper.writeValueAsString(cacheService.summary());
             return result;
         } catch (Exception ex) {
             logger.warning(ex.getMessage());

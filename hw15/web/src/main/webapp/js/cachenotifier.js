@@ -14,7 +14,6 @@ function cacheNotifierConnect() {
             document.getElementById("cachesData_" + caches[i].name).innerText += caches[i].name + "\n";
             document.getElementById("cachesData_" + caches[i].name).innerText += "Global TTL: " + caches[i].globalTTL+ "\n";
             document.getElementById("cachesData_" + caches[i].name).innerText += "Idle TTL: " + caches[i].idleTTL + "\n";
-            document.getElementById("cachesData_" + caches[i].name).innerText += "Max size: " + caches[i].maxSize + "\n";
             document.getElementById("cachesData_" + caches[i].name).innerText += "Size:" + caches[i].size + "\n";
             document.getElementById("cachesData_" + caches[i].name).innerText += "Hits: " + caches[i].hits + "\n";
             document.getElementById("cachesData_" + caches[i].name).innerText += "Misses: " + caches[i].misses + "\n";

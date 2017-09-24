@@ -7,7 +7,7 @@
     <display-name>Otus homework: task 15</display-name>
 
     <session-config>
-        <session-timeout>5</session-timeout>
+        <session-timeout>1000</session-timeout>
     </session-config>
 
     <listener>

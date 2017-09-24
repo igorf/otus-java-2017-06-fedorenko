@@ -1,7 +1,7 @@
 package com.otus.hw15.web.controller;
 
 import com.otus.hw15.web.base.SpringServlet;
-import com.otus.hw15.web.service.CacheInfoService;
+import com.otus.hw15.web.service.CacheService;
 import com.otus.hw15.web.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
@@ -14,7 +14,7 @@ import java.io.IOException;
 @Configurable
 public class CacheInfoServlet extends SpringServlet {
 
-    @Autowired private CacheInfoService cacheInfoService;
+    @Autowired private CacheService cacheService;
     @Autowired private LoginService loginService;
 
     @Override
@@ -37,13 +37,13 @@ public class CacheInfoServlet extends SpringServlet {
         }
 
         if (request.getParameter("cache") != null) {
-            cacheInfoService.cleanCache(request.getParameter("cache"));
+            cacheService.cleanCache(request.getParameter("cache"));
         }
         response.sendRedirect("/");
     }
 
     private void showCaches(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("caches", cacheInfoService.findCaches());
+        request.setAttribute("caches", cacheService.findCaches());
         request.getRequestDispatcher("/template/cacheinfo.ftl").forward(request, response);
     }
 }
