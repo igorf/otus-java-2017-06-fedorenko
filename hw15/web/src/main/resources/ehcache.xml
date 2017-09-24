@@ -1,6 +1,6 @@
 <ehcache>
     <diskStore path="java.io.tmpdir"/>
-    <cache name="default"
+    <cache name="users"
            maxElementsInMemory="1000"
            maxEntriesLocalDisk="10000"
            eternal="false">

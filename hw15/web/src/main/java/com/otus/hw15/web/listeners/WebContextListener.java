@@ -1,7 +1,5 @@
 package com.otus.hw15.web.listeners;
 
-import net.sf.ehcache.CacheManager;
-
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 

@@ -34,7 +34,6 @@ public class LoginService {
         session.removeAttribute(LOGGED_USER_ATTRIBUTE);
     }
 
-
     public void setSession(HttpSession session) {
         this.session = session;
     }
