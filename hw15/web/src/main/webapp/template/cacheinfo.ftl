@@ -1,22 +1,36 @@
-<#-- @ftlvariable name="caches" type="java.util.Map<String, com.otus.hw.yace.CacheEngine>" -->
-<html>
-    <head>
-        <title>Cache stats</title>
-        <script language="JavaScript" src="/js/cachenotifier.js"></script>
-    </head>
-    <body onload="cacheNotifierConnect();">
-    <h2>Cache info</h2>
+<#-- @ftlvariable name="caches" type="java.util.Map<String, net.sf.ehcache.Cache>" -->
 
-    <#list caches?keys as key>
-        <#assign value=caches[key] />
-    <form action="/cleancache" method="post">
-        <input type="hidden" name="cache" value="${key}"/>
-        <div id="cachesData_${key}"></div>
-        <input type="submit" value="Clean"/>
-    </form>
-    <hr />
-    </#list>
+<#include 'layout/layout.ftl'>
+<@layout title="Cache summary">
+<script language="JavaScript" src="/js/cachenotifier.js"></script>
 
-    <a href="/user" target="_blank">Show sample user</a>
-    </body>
-</html>
+<div class="row">
+    <div class="col-lg-3">
+        <h2>Cache summary</h2>
+
+        <#list caches?keys as key>
+            <#assign value=caches[key] />
+            <div class="well">
+                <legend>${key}</legend>
+                <div id="cachesData_${key}" class="monospaced"></div>
+                <form action="/cleancache" method="post" class="form-horizontal">
+                    <input type="hidden" name="cache" value="${key}"/>
+
+                    <div class="form-group">
+                        <div class="col-lg-9">
+                            <button type="submit" class="btn btn-danger btn-sm">Clean</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </#list>
+
+        <a href="/user" target="_blank">Show sample user</a>
+    </div>
+</div>
+
+<script language="JavaScript">
+    cacheNotifierConnect();
+</script>
+
+</@layout>
