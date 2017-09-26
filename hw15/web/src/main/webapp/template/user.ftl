@@ -1,4 +1,4 @@
-<#-- @ftlvariable name="user" type="com.otus.hw15.db.model.User" -->
+<#-- @ftlvariable name="user" type="com.otus.hw15.data.model.User" -->
 <#include 'layout/layout.ftl'>
 <@layout title="Show user properties">
 

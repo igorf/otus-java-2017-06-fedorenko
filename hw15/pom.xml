@@ -13,5 +13,6 @@
         <module>msg</module>
         <module>web</module>
         <module>db</module>
+        <module>data</module>
     </modules>
 </project>

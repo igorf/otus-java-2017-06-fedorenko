@@ -1,4 +1,4 @@
-package com.otus.hw15.db.model;
+package com.otus.hw15.data.model;
 
 import lombok.Data;
 import org.codehaus.jackson.annotate.JsonIgnore;

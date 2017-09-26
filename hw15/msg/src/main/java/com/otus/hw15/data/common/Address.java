@@ -1,4 +1,4 @@
-package com.otus.hw15.msg.common;
+package com.otus.hw15.data.common;
 
 import java.util.UUID;
 

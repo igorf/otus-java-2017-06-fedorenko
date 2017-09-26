@@ -1,27 +1,29 @@
 package com.otus.hw15.db.service;
 
-import com.otus.hw15.db.model.User;
+import com.otus.hw15.data.common.Address;
+import com.otus.hw15.data.common.MessageAgent;
+import com.otus.hw15.data.common.MessageBroker;
+import com.otus.hw15.data.model.User;
+import com.otus.hw15.data.specific.UserFetcher;
+import com.otus.hw15.data.specific.messages.CacheChangedMessage;
 import com.otus.hw15.db.repository.UserRepository;
-import com.otus.hw15.msg.common.Address;
-import com.otus.hw15.msg.common.MessageBroker;
-import com.otus.hw15.msg.specific.messages.CacheChangedMessage;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.Element;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserService {
+public class UserService implements MessageAgent, UserFetcher {
 
     @Autowired private UserRepository userRepository;
-    @Autowired private MessageBroker messageBroker;
-    @Autowired private Address screenUpdaterAddress;
     @Autowired private EhCacheCacheManager cacheManager;
+    @Autowired private ApplicationContext context;
 
     private final static String CACHE_KEY = "users"; //in real project use @Cacheable instead
 
+    @Override
     public User find(long id) {
         User user = null;
         Cache cache = cacheManager.getCacheManager().getCache(CACHE_KEY);
@@ -39,6 +41,9 @@ public class UserService {
                 cache.put(new Element(id, user));
             }
         }
+
+        Address screenUpdaterAddress = context.getBean("screenUpdaterAddress", Address.class);
+        MessageBroker messageBroker = context.getBean("messageBroker", MessageBroker.class);
         messageBroker.sendMessage(screenUpdaterAddress, new CacheChangedMessage());
         return user;
     }
@@ -49,5 +54,10 @@ public class UserService {
             return user;
         }
         return null;
+    }
+
+    @Override
+    public Address getAddress() {
+        return context.getBean("userServiceAddress", Address.class);
     }
 }

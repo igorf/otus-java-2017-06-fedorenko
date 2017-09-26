@@ -1,6 +1,6 @@
 package com.otus.hw15.web.service;
 
-import com.otus.hw15.db.model.User;
+import com.otus.hw15.data.model.User;
 import com.otus.hw15.db.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

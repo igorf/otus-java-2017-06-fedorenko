@@ -52,7 +52,7 @@
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="jpaVendorAdapter" ref="hibernateJpaVendorAdapter"/>
-        <property name="packagesToScan" value="com.otus.hw15.db.model"/>
+        <property name="packagesToScan" value="com.otus.hw15.data.model"/>
         <property name="jpaProperties">
             <props>
                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
@@ -63,12 +63,18 @@
         </property>
     </bean>
 
-    <bean id="screenUpdaterAddress" class="com.otus.hw15.msg.common.Address" />
+    <bean id="screenUpdaterAddress" class="com.otus.hw15.data.common.Address" />
 
-    <bean id="messageBroker" class="com.otus.hw15.msg.common.MessageBroker">
+    <bean id="userVisualizerAddress" class="com.otus.hw15.data.common.Address" />
+
+    <bean id="userServiceAddress" class="com.otus.hw15.data.common.Address" />
+
+    <bean id="messageBroker" class="com.otus.hw15.data.common.MessageBroker">
         <constructor-arg>
             <list>
                 <ref bean="cacheChangedNotifier" />
+                <ref bean="userDataVisualizer" />
+                <ref bean="userService" />
             </list>
         </constructor-arg>
     </bean>

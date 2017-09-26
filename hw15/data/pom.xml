@@ -7,10 +7,17 @@
         <groupId>com.otus</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <name>hw15msg</name>
+    <name>hw15data</name>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>hw15msg</artifactId>
+    <artifactId>hw15data</artifactId>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <hibernate.version>5.2.10.Final</hibernate.version>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -20,22 +27,16 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.otus</groupId>
-            <artifactId>hw15data</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate.version}</version>
         </dependency>
         <dependency>
-            <groupId>javax.websocket</groupId>
-            <artifactId>javax.websocket-api</artifactId>
-            <version>1.1</version>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <version>1.9.13</version>
         </dependency>
     </dependencies>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-    </properties>
 
     <build>
         <finalName>${project.name}</finalName>

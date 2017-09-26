@@ -1,8 +1,8 @@
 package com.otus.hw15.web.ws;
 
-import com.otus.hw15.msg.common.Address;
-import com.otus.hw15.msg.common.MessageAgent;
-import com.otus.hw15.msg.specific.ClientsNotifier;
+import com.otus.hw15.data.common.Address;
+import com.otus.hw15.data.common.MessageAgent;
+import com.otus.hw15.data.specific.ClientsNotifier;
 import com.otus.hw15.web.service.CacheService;
 import com.otus.hw15.web.service.LoginService;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -104,10 +104,6 @@ public class CacheChangedNotifier implements MessageAgent, ClientsNotifier {
     @Override
     public Address getAddress() {
         return screenUpdaterAddress;
-    }
-
-    @Override
-    public void setAddress(Address address) {
     }
 
     @Override

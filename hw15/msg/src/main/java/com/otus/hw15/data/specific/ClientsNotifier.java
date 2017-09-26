@@ -1,4 +1,4 @@
-package com.otus.hw15.msg.specific;
+package com.otus.hw15.data.specific;
 
 public interface ClientsNotifier {
     void notifyClients();
