@@ -1,5 +1,8 @@
 package com.otus.hw15.web.ws;
 
+import com.otus.hw15.msg.common.Address;
+import com.otus.hw15.msg.common.MessageAgent;
+import com.otus.hw15.msg.specific.ClientsNotifier;
 import com.otus.hw15.web.service.CacheService;
 import com.otus.hw15.web.service.LoginService;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -17,13 +20,15 @@ import java.util.logging.Logger;
 
 @ServerEndpoint(value = "/cachechanged", configurator = SpringConfigurator.class)
 @Component
-public class CacheChangedNotifier {
+public class CacheChangedNotifier implements MessageAgent, ClientsNotifier {
 
     private final static String GET_MSG = "GET";
     private static Set<Session> sessions = new HashSet<>();
     private static Logger logger = Logger.getLogger(CacheChangedNotifier.class.getName());
+
     @Autowired private CacheService cacheService;
     @Autowired private LoginService loginService;
+    @Autowired private Address screenUpdaterAddress;
 
     @OnOpen
     public void open(Session session) {
@@ -52,10 +57,6 @@ public class CacheChangedNotifier {
         } catch (Exception e) {
             logger.warning(e.getMessage());
         }
-    }
-
-    public void notifyClients() {
-        sendAll(createClientMessage());
     }
 
     private String createClientMessage() {
@@ -98,5 +99,19 @@ public class CacheChangedNotifier {
             logger.warning(ex.getMessage());
         }
         return false;
+    }
+
+    @Override
+    public Address getAddress() {
+        return screenUpdaterAddress;
+    }
+
+    @Override
+    public void setAddress(Address address) {
+    }
+
+    @Override
+    public void notifyClients() {
+        sendAll(createClientMessage());
     }
 }

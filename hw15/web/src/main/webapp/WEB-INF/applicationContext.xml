@@ -62,4 +62,15 @@
             </props>
         </property>
     </bean>
+
+    <bean id="screenUpdaterAddress" class="com.otus.hw15.msg.common.Address" />
+
+    <bean id="messageBroker" class="com.otus.hw15.msg.common.MessageBroker">
+        <constructor-arg>
+            <list>
+                <ref bean="cacheChangedNotifier" />
+            </list>
+        </constructor-arg>
+    </bean>
+
 </beans>
