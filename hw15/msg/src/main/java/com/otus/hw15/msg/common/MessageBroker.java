@@ -9,7 +9,6 @@ public class MessageBroker {
 
     private final Map<MessageAgent, ConcurrentLinkedQueue<Message>> messages = new HashMap<>();
     private final Map<Address, MessageAgent> receivers = new HashMap<>();
-    private final static long SLEEP_INTERVAL = 10;
 
     public MessageBroker(List<MessageAgent> agents) {
         for (MessageAgent agent: agents) {
@@ -30,26 +29,8 @@ public class MessageBroker {
 
     private void start() {
         for (MessageAgent receiver: receivers.values()) {
-            new Thread(() -> {
-                while (true) {
-                    ConcurrentLinkedQueue<Message> messageQueue = messages.get(receiver);
-                    while (!messageQueue.isEmpty()) {
-                        Message msg = messageQueue.poll();
-                        try {
-                            msg.run(receiver);
-                        } catch (Exception ex) {
-                            //TODO: LOG!
-                            ex.printStackTrace();
-                        }
-
-                    }
-                    try {
-                        Thread.sleep(SLEEP_INTERVAL);
-                    } catch (InterruptedException ex) {
-                        //Nothing to do
-                    }
-                }
-            }).start();
+            ConcurrentLinkedQueue<Message> messageQueue = messages.get(receiver);
+            new MessageQueueWatcher(messageQueue, receiver).start();
         }
     }
 
