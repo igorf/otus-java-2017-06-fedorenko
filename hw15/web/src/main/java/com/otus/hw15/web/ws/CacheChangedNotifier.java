@@ -11,8 +11,8 @@ import javax.servlet.http.HttpSession;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.util.ArrayList;
-import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Logger;
 
 @ServerEndpoint(value = "/cachechanged", configurator = SpringConfigurator.class)
@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 public class CacheChangedNotifier {
 
     private final static String GET_MSG = "GET";
-    private static Queue<Session> queue = new ConcurrentLinkedQueue<>();
+    private static Set<Session> sessions = new HashSet<>();
     private static Logger logger = Logger.getLogger(CacheChangedNotifier.class.getName());
     @Autowired private CacheService cacheService;
     @Autowired private LoginService loginService;
@@ -28,19 +28,19 @@ public class CacheChangedNotifier {
     @OnOpen
     public void open(Session session) {
         if (isLogged(session)) {
-            queue.add(session);
+            sessions.add(session);
         }
     }
 
     @OnClose
     public void closedConnection(Session session) {
-        queue.remove(session);
+        sessions.remove(session);
     }
 
     @OnError
     public void error(Session session, Throwable t) {
         logger.warning(t.getMessage());
-        queue.remove(session);
+        sessions.remove(session);
     }
 
     @OnMessage
@@ -76,14 +76,14 @@ public class CacheChangedNotifier {
     private static void sendAll(String msg) {
         try {
             ArrayList<Session> closedSessions = new ArrayList<>();
-            for (Session session : queue) {
+            for (Session session : sessions) {
                 if(!session.isOpen()) {
                     closedSessions.add(session);
                 } else {
                     notifyOne(session, msg);
                 }
             }
-            queue.removeAll(closedSessions);
+            sessions.removeAll(closedSessions);
         } catch (Throwable e) {
             logger.warning(e.getMessage());
         }
