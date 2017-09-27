@@ -22,5 +22,15 @@ function cacheNotifierConnect() {
 }
 
 function cacheNotifierRefresh() {
-    cacheNotifierWebSocket.send("GET");
+    var msg = {};
+    msg.command = "GET";
+    msg.cacheID = "";
+    cacheNotifierWebSocket.send(JSON.stringify(msg));
+}
+
+function cleanCache(cacheID) {
+    var msg = {};
+    msg.command = "CLEAN";
+    msg.cacheID = cacheID;
+    cacheNotifierWebSocket.send(JSON.stringify(msg));
 }

@@ -1,5 +1,6 @@
 package com.otus.hw15.web.ws;
 
+import com.otus.hw15.data.CacheRequest;
 import com.otus.hw15.data.common.Address;
 import com.otus.hw15.data.common.MessageAgent;
 import com.otus.hw15.data.specific.ClientsNotifier;
@@ -23,8 +24,11 @@ import java.util.logging.Logger;
 public class CacheChangedNotifier implements MessageAgent, ClientsNotifier {
 
     private final static String GET_MSG = "GET";
+    private final static String CLEAN_MSG = "CLEAN";
+
     private static Set<Session> sessions = new HashSet<>();
     private static Logger logger = Logger.getLogger(CacheChangedNotifier.class.getName());
+    private static final ObjectMapper mapper = new ObjectMapper();
 
     @Autowired private CacheService cacheService;
     @Autowired private LoginService loginService;
@@ -50,18 +54,24 @@ public class CacheChangedNotifier implements MessageAgent, ClientsNotifier {
 
     @OnMessage
     public void onMessage(Session session, String msg) {
-        try {
-            if (msg.equalsIgnoreCase(GET_MSG) && isLogged(session)) {
-                notifyOne(session, createClientMessage());
+        if (isLogged(session)) {
+            try {
+                CacheRequest request = mapper.readValue(msg, CacheRequest.class);
+                if (request.getCommand().equalsIgnoreCase(GET_MSG)) {
+                    notifyOne(session, createClientMessage());
+                } else if (request.getCommand().equalsIgnoreCase(CLEAN_MSG)) {
+                    cacheService.cleanCache(request.getCacheID());
+                    notifyClients();
+                }
+            } catch (Exception e) {
+                logger.warning(e.getMessage());
             }
-        } catch (Exception e) {
-            logger.warning(e.getMessage());
         }
     }
 
     private String createClientMessage() {
         try {
-            ObjectMapper mapper = new ObjectMapper();
+
             String result = mapper.writeValueAsString(cacheService.summary());
             return result;
         } catch (Exception ex) {

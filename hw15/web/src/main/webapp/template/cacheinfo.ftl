@@ -13,12 +13,12 @@
             <div class="well">
                 <legend>${key}</legend>
                 <div id="cachesData_${key}" class="monospaced"></div>
-                <form action="/cleancache" method="post" class="form-horizontal">
+                <form class="form-horizontal">
                     <input type="hidden" name="cache" value="${key}"/>
 
                     <div class="form-group">
                         <div class="col-lg-9">
-                            <button type="submit" class="btn btn-danger btn-sm">Clean</button>
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="cleanCache('${key}'); return false;">Clean</button>
                         </div>
                     </div>
                 </form>
