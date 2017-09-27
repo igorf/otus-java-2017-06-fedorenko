@@ -9,7 +9,7 @@
         <div class="well col-lg-offset-4 col-lg-4">
             <legend>Find user by ID</legend>
 
-            <form class="form-horizontal">
+            <div class="form-horizontal">
                 <fieldset>
                     <div class="form-group">
                         <label for="uid" class="col-lg-3 control-label">UID:</label>
@@ -24,7 +24,7 @@
                         </div>
                     </div>
                 </fieldset>
-            </form>
+            </div>
 
             <div id="userPlaceholder" class="monospaced userPlaceholder"></div>
         </div>

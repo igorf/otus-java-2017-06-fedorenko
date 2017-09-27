@@ -13,7 +13,7 @@
             <div class="well">
                 <legend>${key}</legend>
                 <div id="cachesData_${key}" class="monospaced"></div>
-                <form class="form-horizontal">
+                <div class="form-horizontal">
                     <input type="hidden" name="cache" value="${key}"/>
 
                     <div class="form-group">
@@ -21,7 +21,7 @@
                             <button type="submit" class="btn btn-danger btn-sm" onclick="cleanCache('${key}'); return false;">Clean</button>
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
         </#list>
 
