@@ -1,7 +1,15 @@
 var userDataWebSocket;
 
-function userDataConnect() {
+function showUser(userId) {
+
     userDataWebSocket = new WebSocket("ws://" + document.location.host + "/userdata");
+
+    userDataWebSocket.onopen = function (event) {
+        var msg = {};
+        msg.command = "SHOW_USER";
+        msg.userId = userId;
+        userDataWebSocket.send(JSON.stringify(msg));
+    };
 
     userDataWebSocket.onmessage = function(event) {
         var user = JSON.parse(event.data);
@@ -15,12 +23,6 @@ function userDataConnect() {
         } else {
             document.getElementById("userPlaceholder").innerText += "User not found";
         }
+        userDataWebSocket.close();
     };
-}
-
-function showUser(userId) {
-    var msg = {};
-    msg.command = "SHOW_USER";
-    msg.userId = userId;
-    userDataWebSocket.send(JSON.stringify(msg));
 }

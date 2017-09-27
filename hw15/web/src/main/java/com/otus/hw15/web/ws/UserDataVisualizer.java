@@ -32,11 +32,6 @@ public class UserDataVisualizer implements MessageAgent, UserSessionVisualizer {
     @Autowired private Address userServiceAddress;
     @Autowired private ApplicationContext context;
 
-    @OnError
-    public void error(Session session, Throwable t) {
-        logger.warning(t.getMessage());
-    }
-
     @OnMessage
     public void onMessage(Session session, String json) {
         try {

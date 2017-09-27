@@ -48,6 +48,7 @@ public class UserService implements MessageAgent, UserFetcher {
         return user;
     }
 
+    @Override
     public User findByLoginAndPassword(String username, String password) {
         User user = userRepository.findOneByName(username);
         if (user != null && user.getPassword().equals(password)) {

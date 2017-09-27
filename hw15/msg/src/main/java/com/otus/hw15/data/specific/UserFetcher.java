@@ -4,4 +4,5 @@ import com.otus.hw15.data.model.User;
 
 public interface UserFetcher {
     User find(long id);
+    User findByLoginAndPassword(String username, String password);
 }

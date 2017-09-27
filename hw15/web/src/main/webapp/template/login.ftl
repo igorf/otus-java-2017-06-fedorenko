@@ -1,10 +1,11 @@
 <#include 'layout/layout.ftl'>
 <@layout title="Login">
+<script language="JavaScript" src="/js/userlogin.js"></script>
 
 <div class="row">
     <div class="col-lg-4 col-lg-offset-4">
         <div class="well">
-            <form action="/login" method="post" class="form-horizontal">
+            <div class="form-horizontal">
                 <fieldset>
                     <legend>Login</legend>
 
@@ -24,23 +25,21 @@
 
                     <div class="form-group">
                         <div class="col-lg-9 col-lg-offset-3">
-                            <button type="submit" class="btn btn-info">Login</button>
+                            <button class="btn btn-info" onclick="login(document.getElementById('username').value, document.getElementById('password').value); return false;">Login</button>
                         </div>
                     </div>
                 </fieldset>
-            </form>
+            </div>
         </div>
     </div>
 </div>
 
-    <#if loginFailed?? >
-<div class="row">
+<div class="row loginError" id="loginError">
     <div class="col-lg-4 col-lg-offset-4">
         <div class="alert alert-dismissible alert-danger">
             Username or password incorrect!
         </div>
     </div>
 </div>
-    </#if>
 
 </@layout>

@@ -30,8 +30,4 @@
         </div>
     </div>
 </div>
-
-<script language="JavaScript">
-    userDataConnect();
-</script>
 </@layout>
