@@ -6,7 +6,6 @@ import com.otus.hw15.data.common.MessageAgent;
 import com.otus.hw15.data.common.MessageBroker;
 import com.otus.hw15.data.specific.UserLoginCarrier;
 import com.otus.hw15.data.specific.UserLoginService;
-import com.otus.hw15.data.specific.messages.FindUserMessage;
 import com.otus.hw15.data.specific.messages.LoginMessage;
 import com.otus.hw15.web.service.LoginService;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -15,7 +14,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.server.standard.SpringConfigurator;
 
-import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;

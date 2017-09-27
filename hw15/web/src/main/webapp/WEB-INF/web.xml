@@ -24,7 +24,6 @@
     <servlet-mapping>
         <servlet-name>cacheInfoServlet</servlet-name>
         <url-pattern>/</url-pattern>
-        <url-pattern>/cleancache</url-pattern>
     </servlet-mapping>
 
     <servlet>

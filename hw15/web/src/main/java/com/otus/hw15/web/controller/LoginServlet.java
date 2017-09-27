@@ -24,16 +24,4 @@ public class LoginServlet extends SpringServlet {
             response.sendRedirect("/");
         }
     }
-
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String login = request.getParameter("login");
-        String password = request.getParameter("password");
-        loginService.setSession(request.getSession());
-        if (loginService.login(login, password)) {
-            response.sendRedirect("/");
-        } else {
-            request.setAttribute("loginFailed", true);
-            request.getRequestDispatcher("/template/login.ftl").forward(request, response);
-        }
-    }
 }

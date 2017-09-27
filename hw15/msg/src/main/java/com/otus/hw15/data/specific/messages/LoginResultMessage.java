@@ -1,8 +1,8 @@
 package com.otus.hw15.data.specific.messages;
 
-import com.otus.hw15.data.specific.UserLoginCarrier;
 import com.otus.hw15.data.common.AbstractMessage;
 import com.otus.hw15.data.common.MessageAgent;
+import com.otus.hw15.data.specific.UserLoginCarrier;
 
 import javax.websocket.Session;
 
