@@ -25,24 +25,6 @@ public class CacheInfoServlet extends SpringServlet {
             return;
         }
 
-        showCaches(request, response);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        loginService.setSession(request.getSession());
-        if (!loginService.isLogged()) {
-            response.sendRedirect("/login");
-            return;
-        }
-
-        if (request.getParameter("cache") != null) {
-            cacheService.cleanCache(request.getParameter("cache"));
-        }
-        response.sendRedirect("/");
-    }
-
-    private void showCaches(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("caches", cacheService.findCaches());
         request.getRequestDispatcher("/template/cacheinfo.ftl").forward(request, response);
     }
