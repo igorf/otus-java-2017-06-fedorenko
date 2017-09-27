@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class MessageBroker {
 
-    private final Map<MessageAgent, ConcurrentLinkedQueue<Message>> messages = new HashMap<>();
+    private final Map<MessageAgent, ConcurrentLinkedQueue<AbstractMessage>> messages = new HashMap<>();
     private final Map<Address, MessageAgent> receivers = new HashMap<>();
 
     public MessageBroker(List<MessageAgent> agents) {
@@ -17,8 +17,9 @@ public class MessageBroker {
         start();
     }
 
-    public void sendMessage(Address receiver, Message message) {
-        ConcurrentLinkedQueue<Message> exactQueue = messages.get(agentByAddress(receiver));
+    public void sendMessage(Address receiver, AbstractMessage message) {
+        message.setMessageBroker(this);
+        ConcurrentLinkedQueue<AbstractMessage> exactQueue = messages.get(agentByAddress(receiver));
         exactQueue.add(message);
     }
 
@@ -29,7 +30,7 @@ public class MessageBroker {
 
     private void start() {
         for (MessageAgent receiver: receivers.values()) {
-            ConcurrentLinkedQueue<Message> messageQueue = messages.get(receiver);
+            ConcurrentLinkedQueue<AbstractMessage> messageQueue = messages.get(receiver);
             new MessageQueueWatcher(messageQueue, receiver).start();
         }
     }

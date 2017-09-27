@@ -78,7 +78,7 @@ public class UserDataVisualizer implements MessageAgent, UserSessionVisualizer {
 
     private void sendShowUserMessage(Session session, long userId) {
         MessageBroker messageBroker = context.getBean("messageBroker", MessageBroker.class);
-        FindUserMessage msg = new FindUserMessage(messageBroker, userVisualizerAddress, session, userId);
+        FindUserMessage msg = new FindUserMessage(userVisualizerAddress, session, userId);
         messageBroker.sendMessage(userServiceAddress, msg);
     }
 }

@@ -3,11 +3,11 @@ package com.otus.hw15.data.common;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class MessageQueueWatcher extends Thread {
-    private ConcurrentLinkedQueue<Message> messageQueue;
+    private ConcurrentLinkedQueue<AbstractMessage> messageQueue;
     private MessageAgent receiver;
     private final static long SLEEP_INTERVAL = 10;
 
-    MessageQueueWatcher(ConcurrentLinkedQueue<Message> queue, MessageAgent receiver) {
+    MessageQueueWatcher(ConcurrentLinkedQueue<AbstractMessage> queue, MessageAgent receiver) {
         messageQueue = queue;
         this.receiver = receiver;
     }
@@ -22,7 +22,7 @@ public class MessageQueueWatcher extends Thread {
 
     private void tick() {
         while (!messageQueue.isEmpty()) {
-            Message msg = messageQueue.poll();
+            AbstractMessage msg = messageQueue.poll();
             try {
                 msg.run(receiver);
             } catch (Exception ex) {
