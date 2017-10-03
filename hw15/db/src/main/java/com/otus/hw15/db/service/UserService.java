@@ -11,7 +11,6 @@ import net.sf.ehcache.Cache;
 import net.sf.ehcache.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,7 +18,9 @@ public class UserService implements MessageAgent, UserFetcher {
 
     @Autowired private UserRepository userRepository;
     @Autowired private EhCacheCacheManager cacheManager;
-    @Autowired private ApplicationContext context;
+    @Autowired private Address screenUpdaterAddress;
+    @Autowired private Address userServiceAddress;
+    @Autowired private MessageBroker messageBroker;
 
     private final static String CACHE_KEY = "users"; //in real project use @Cacheable instead
 
@@ -42,8 +43,6 @@ public class UserService implements MessageAgent, UserFetcher {
             }
         }
 
-        Address screenUpdaterAddress = context.getBean("screenUpdaterAddress", Address.class);
-        MessageBroker messageBroker = context.getBean("messageBroker", MessageBroker.class);
         messageBroker.sendMessage(screenUpdaterAddress, new CacheChangedMessage());
         return user;
     }
@@ -59,6 +58,6 @@ public class UserService implements MessageAgent, UserFetcher {
 
     @Override
     public Address getAddress() {
-        return context.getBean("userServiceAddress", Address.class);
+        return userServiceAddress;
     }
 }

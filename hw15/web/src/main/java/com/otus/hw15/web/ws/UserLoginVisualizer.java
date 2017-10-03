@@ -30,7 +30,8 @@ public class UserLoginVisualizer implements MessageAgent, UserLoginCarrier {
 
     @Autowired private Address loginVisualizerAddress;
     @Autowired private Address userServiceAddress;
-    @Autowired private ApplicationContext context;
+    @Autowired private MessageBroker messageBroker;
+    @Autowired private LoginService loginService;
 
     @OnMessage
     public void onMessage(Session session, String json) {
@@ -64,8 +65,6 @@ public class UserLoginVisualizer implements MessageAgent, UserLoginCarrier {
 
 
     private void sendLoginMessage(Session session, UserLoginRequest request) {
-        MessageBroker messageBroker = context.getBean("messageBroker", MessageBroker.class);
-        UserLoginService loginService = context.getBean("loginService", LoginService.class);
         LoginMessage msg = new LoginMessage(loginVisualizerAddress, session, loginService, request.getLogin(), request.getPassword());
         messageBroker.sendMessage(userServiceAddress, msg);
     }

@@ -29,7 +29,7 @@ public class UserDataVisualizer implements MessageAgent, UserSessionVisualizer {
 
     @Autowired private Address userVisualizerAddress;
     @Autowired private Address userServiceAddress;
-    @Autowired private ApplicationContext context;
+    @Autowired private MessageBroker messageBroker;
 
     @OnMessage
     public void onMessage(Session session, String json) {
@@ -71,7 +71,6 @@ public class UserDataVisualizer implements MessageAgent, UserSessionVisualizer {
     }
 
     private void sendShowUserMessage(Session session, long userId) {
-        MessageBroker messageBroker = context.getBean("messageBroker", MessageBroker.class);
         FindUserMessage msg = new FindUserMessage(userVisualizerAddress, session, userId);
         messageBroker.sendMessage(userServiceAddress, msg);
     }

@@ -1,21 +1,22 @@
 package com.otus.hw15.data.common;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+@Component
 public class MessageBroker {
 
+    @Autowired
+    private Set<MessageAgent> agentSet;
     private final Map<MessageAgent, ConcurrentLinkedQueue<AbstractMessage>> messages = new HashMap<>();
     private final Map<Address, MessageAgent> receivers = new HashMap<>();
-
-    public MessageBroker(List<MessageAgent> agents) {
-        for (MessageAgent agent: agents) {
-            addReceiver(agent);
-        }
-        start();
-    }
 
     public void sendMessage(Address receiver, AbstractMessage message) {
         message.setMessageBroker(this);
@@ -26,6 +27,14 @@ public class MessageBroker {
     private void addReceiver(MessageAgent receiver) {
         messages.put(receiver, new ConcurrentLinkedQueue<>());
         receivers.put(receiver.getAddress(), receiver);
+    }
+
+    @PostConstruct
+    private void init() {
+        for (MessageAgent agent: agentSet) {
+            addReceiver(agent);
+        }
+        start();
     }
 
     private void start() {

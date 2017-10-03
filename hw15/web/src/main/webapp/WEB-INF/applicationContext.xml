@@ -70,16 +70,4 @@
     <bean id="loginVisualizerAddress" class="com.otus.hw15.data.common.Address" />
 
     <bean id="userServiceAddress" class="com.otus.hw15.data.common.Address" />
-
-    <bean id="messageBroker" class="com.otus.hw15.data.common.MessageBroker">
-        <constructor-arg>
-            <list>
-                <ref bean="cacheChangedNotifier" />
-                <ref bean="userDataVisualizer" />
-                <ref bean="userLoginVisualizer" />
-                <ref bean="userService" />
-            </list>
-        </constructor-arg>
-    </bean>
-
 </beans>
