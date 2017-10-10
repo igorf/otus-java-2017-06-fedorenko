@@ -1,0 +1,12 @@
+.monospaced {
+    font-family: monospace;
+}
+
+.userPlaceholder {
+    visibility: hidden;
+    margin-top: 1em;
+}
+
+.loginError {
+    visibility: hidden;
+}

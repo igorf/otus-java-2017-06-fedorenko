@@ -1,0 +1,12 @@
+<ehcache>
+    <cache name="messages"
+           maxEntriesLocalHeap="10000"
+           eternal="false"
+           overflowToDisk="false"
+           overflowToOffHeap="false"
+           timeToIdleSeconds="300" timeToLiveSeconds="600"
+           memoryStoreEvictionPolicy="LRU"
+           transactionalMode="off">
+        <persistence strategy="none" />
+    </cache>
+</ehcache>
