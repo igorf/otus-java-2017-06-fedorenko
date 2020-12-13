@@ -5,4 +5,4 @@
 ### Автор 
 Igor Fedorenko (Игорь Федоренко)
 
-pointer@nm.ru
+ifedorenko@gmail.com
